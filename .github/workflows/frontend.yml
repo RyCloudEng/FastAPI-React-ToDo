@@ -26,3 +26,11 @@ jobs:
           region: us-east-1
           local-image: frontendimage:latest
           image: frontend:latest
+
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Deployment rollout
+        run: kubectl rollout restart deployment frontend-deployment
+    
