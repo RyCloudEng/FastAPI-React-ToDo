@@ -26,3 +26,10 @@ jobs:
           region: us-east-1
           local-image: backendimage:latest
           image: backend:latest
+  deploy:
+    runs-on: self-hosted
+    needs: build_and_push
+
+    steps:
+      - name: Deployment rollout
+        run: kubectl rollout restart deployment backend-deployment -n production
