@@ -25,4 +25,4 @@ jobs:
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: us-east-1
           local-image: frontendimage:latest
-          image: 358454002832.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          image: frontend:latest
