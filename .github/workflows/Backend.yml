@@ -1,0 +1,28 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - backend/**
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Build Dockerimage
+        run: docker build -f backend/Dockerfile -t backendimage backend
+
+      - name: push to registry (ECR)
+        uses: jwalton/gh-ecr-push@v2
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: us-east-1
+          local-image: backendimage:latest
+          image: backend:latest
