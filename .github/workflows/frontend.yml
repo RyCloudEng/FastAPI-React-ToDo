@@ -4,8 +4,8 @@ on:
   push:
     branches:
     - main
-    paths:
-    - frontend/**
+    #paths:
+    #- frontend/**
 
 jobs:
   build_and_push:
@@ -29,6 +29,7 @@ jobs:
 
   deploy:
     runs-on: self-hosted
+    needs: build_and_push
 
     steps:
       - name: Deployment rollout
