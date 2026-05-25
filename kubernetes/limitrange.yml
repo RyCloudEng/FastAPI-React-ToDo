@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: production-limitrange
+spec:
+  limits:
+  - default:
+      cpu: "500m"
+      memory: "512Mi"
+    defaultRequest:
+      cpu: "100m"
+      memory: "200Mi"
+    max:
+      cpu: "500m"
+      memory: "1Gi"
+    min:
+      cpu: "100m"
+      memory: "200Mi"
+    maxLimitRequestRatio:
+      cpu: "5"
+      memory: "5"
+    type: Container

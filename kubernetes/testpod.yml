@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busyboxpod
+  namespace: production
+  labels:
+    app-tier: backend
+spec:
+  containers:
+  - name: nginx
+    command: ["sh","-c","sleep infinity"]
+    image: busybox:latest
+    ports:
+    - containerPort: 80
+  resources:
+    requests:
+      memory: "200Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"

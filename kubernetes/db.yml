@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-sts
+  namespace: production
+spec:
+  selector:
+    matchLabels:
+      tier: database # has to match .spec.template.metadata.labels
+  replicas: 1 # by default is 1
+  serviceName: "dbsvc"
+  template:
+    metadata:
+      labels:
+        tier: database # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: dbcontainer
+        image: postgres:18
+        ports:
+        - containerPort: 5432
+          name: postgres
+        volumeMounts:
+        - name: db-volume
+          mountPath: /var/lib/postgresql
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: POSTGRES_PASSWORD
+      resources:
+        requests:
+          memory: "200Mi"
+          cpu: "100m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+      nodeSelector:
+        tier: database
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                - database
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "database"
+          effect: "NoSchedule"
+      #volumes:
+        #- name: db-volume
+          #persistentVolumeClaim:
+            #claimName: pvc-ebs
+  volumeClaimTemplates:
+  - metadata:
+      name: db-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "ebs-sc"
+      resources:
+        requests:
+          storage: 5Gi

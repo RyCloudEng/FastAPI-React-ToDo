@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busyboxpod
+  namespace: production
+spec:
+  containers:
+  - name: nginx
+    command: ["sh","-c","sleep infinity"]
+    image: busybox:latest
+    ports:
+    - containerPort: 80
+  resources:
+    requests:
+      memory: "200Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+  #affinity:
+    #podAntiAffinity:
+      #requiredDuringSchedulingIgnoredDuringExecution:
+      #- labelSelector:
+          #matchExpressions:
+          #- key: topology.kubernetes.io/zone
+            #operator: In
+            #values:
+            #- us-east-1b
+        #topologyKey: topology.kubernetes.io/zone

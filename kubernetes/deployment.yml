@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app-tier: frontend
+  namespace: production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app-tier: frontend
+  template:
+    metadata:
+      labels:
+        app-tier: frontend
+        im: hungry
+        yellow: green
+        violet: purple
+    spec:
+      containers:
+      - name: frontend-container
+        image: 358454002832.dkr.ecr.us-east-1.amazonaws.com/frontend
+        env:
+        - name: DANGEROUSLY_DISABLE_HOST_CHECK
+          value: "true"
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+      nodeSelector:
+        tier: frontend
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: tier
+                operator: In
+                values:
+                - frontend
+      tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "frontend"
+          effect: "NoSchedule"

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backendsvc
+spec:
+  selector:
+    app-tier: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4000
