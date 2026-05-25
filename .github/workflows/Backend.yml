@@ -5,7 +5,7 @@ on:
     branches:
     - main
     paths:
-    - backend/**
+    - Backend/**
 
 jobs:
   build_and_push:
@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Build Dockerimage
-        run: docker build -f backend/Dockerfile -t backendimage backend
+        run: docker build -f Backend/Dockerfile -t backendimage backend
 
       - name: push to registry (ECR)
         uses: jwalton/gh-ecr-push@v2
