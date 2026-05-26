@@ -27,11 +27,27 @@ jobs:
           local-image: frontendimage:latest
           image: frontend:latest
 
-  deploy:
-    runs-on: self-hosted
-    needs: build_and_push
+   deploy:
+     runs-on: ubuntu-latest
+     steps:
+      # --- #
+      - name: Build and push CONTAINER_NAME
+        uses: ianbelcher/eks-kubectl-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          cluster_name: ${{ secrets.CLUSTER_NAME }}
+          eks_role_arn: ${{ secrets.EKS_ROLE_ARN }}
+          kubernetes_version: v1.35
+          args: rollout restart deployment frontend-deployment -n production
+      # --- #
 
-    steps:
-      - name: Deployment rollout
-        run: kubectl rollout restart deployment frontend-deployment -n production
+  #deploy:
+    #runs-on: self-hosted
+    #needs: build_and_push
+
+    #steps:
+      #- name: Deployment rollout
+        #run: kubectl rollout restart deployment frontend-deployment -n production
     
