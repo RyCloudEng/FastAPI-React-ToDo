@@ -78,7 +78,7 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: tls-secret
+    - secretName: tls-secret-frontend
       hosts:
         - frontend.devcops.click
 

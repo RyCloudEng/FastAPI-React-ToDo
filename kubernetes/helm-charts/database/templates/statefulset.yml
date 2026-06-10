@@ -9,7 +9,7 @@ spec:
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   {{- if .Values.serviceName.enabled }}
-  serviceName: {{ .Values.serviceName.name }}
+  serviceName: {{ include "database.fullname" . }}
   {{- end }}
   selector:
     matchLabels:

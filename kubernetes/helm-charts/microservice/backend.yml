@@ -194,7 +194,7 @@ Secret:
   secretname: backendsecret
   type: Opaque
   stringData:
-    DATABASE_URL: postgresql://postgres:password@postgres-sts-0.dbsvc.production.svc.cluster.local:5432/postgres
+    DATABASE_URL: postgresql://postgres:password@database-0.database.default.svc.cluster.local:5432/postgres
 configmap:
   enabled: false
   configmapname:
