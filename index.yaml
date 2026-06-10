@@ -1,0 +1,25 @@
+apiVersion: v1
+entries:
+  database:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-06-10T13:28:12.205615558-04:00"
+    description: A Helm chart for Kubernetes
+    digest: b19911737d2dbfda9d7f76ce71c9ce6745717f431262fd0168672c47d1f36f44
+    name: database
+    type: application
+    urls:
+    - https://rycloudeng.github.io/FastAPI-React-ToDo/database-0.1.0.tgz
+    version: 0.1.0
+  microservice:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-06-10T13:28:12.205875268-04:00"
+    description: A Helm chart for Kubernetes
+    digest: 9b23ed79a525dd05421bb60188706ebe4321abdfe5a8491a33e6310a5ba77890
+    name: microservice
+    type: application
+    urls:
+    - https://rycloudeng.github.io/FastAPI-React-ToDo/microservice-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-06-10T13:28:12.205236754-04:00"
