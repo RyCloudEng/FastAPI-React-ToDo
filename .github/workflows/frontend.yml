@@ -8,6 +8,33 @@ on:
     - frontend/**
 
 jobs:
+  scans:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Install Trivy
+      - name: Install Trivy
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y wget
+          wget -qO- https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo gpg --dearmor -o /usr/share/keyrings/trivy.gpg
+          echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update -y
+          sudo apt-get install -y trivy
+
+      # Step 3: Run Trivy in filesystem mode (static code scan)
+      - name: Scan source code for vulnerabilities
+        run: |
+          trivy fs --security-checks vuln,secret,config \
+                   --severity HIGH,CRITICAL \
+                   --exit-code 1 \
+                   --ignore-unfixed \
+                   --format table \
+                   .
   build_and_push:
     runs-on: ubuntu-latest
 
